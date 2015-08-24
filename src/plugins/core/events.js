@@ -183,6 +183,18 @@ define([
          * Browsers without the Clipboard API (specifically `ClipboardEvent.clipboardData`)
          * will execute the second branch here.
          */
+        event.preventDefault();
+
+        var pastedText = undefined;
+        if (window.clipboardData && window.clipboardData.getData) { // IE
+          pastedText = window.clipboardData.getData('Text');
+        } else if (e.clipboardData && e.clipboardData.getData) {
+          pastedText = e.clipboardData.getData('text/plain');
+        }
+        scribe.insertHTML(pastedText)
+
+        return false
+
         if (event.clipboardData) {
           event.preventDefault();
 
