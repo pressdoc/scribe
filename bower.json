@@ -13,5 +13,17 @@
     "scribe-plugin-sanitizer": "guardian/scribe-plugin-sanitizer#master",
     "scribe-plugin-toolbar": "guardian/scribe-plugin-toolbar#master",
     "scribe-plugin-inline-styles-to-elements": "guardian/scribe-plugin-inline-styles-to-elements#master"
+  },
+  "version": "2.0.1",
+  "main": "./scribe.js",
+  "description": "Content editable wrapper and polyfill",
+  "authors": [
+    "Oliver Joseph Ash <oliverjash@icloud.com>"
+  ],
+  "license": "MIT",
+  "ignore": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/guardian/scribe.git"
   }
 }
