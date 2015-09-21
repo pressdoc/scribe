@@ -185,6 +185,9 @@ define([
          */
         event.preventDefault();
 
+        return false
+
+
         var pastedText = undefined;
         if (window.clipboardData && window.clipboardData.getData) { // IE
           pastedText = window.clipboardData.getData('Text');
