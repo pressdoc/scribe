@@ -178,11 +178,9 @@ define([
        * I also don't like how it has the authority to perform `event.preventDefault`.
        */
 
+      /*
       scribe.el.addEventListener('paste', function handlePaste(event) {
-        /**
-         * Browsers without the Clipboard API (specifically `ClipboardEvent.clipboardData`)
-         * will execute the second branch here.
-         */
+
         event.preventDefault();
 
         return false
@@ -206,23 +204,7 @@ define([
             scribe.insertPlainText(event.clipboardData.getData('text/plain'));
           }
         } else {
-          /**
-           * If the browser doesn't have `ClipboardEvent.clipboardData`, we run through a
-           * sequence of events:
-           *
-           *   - Save the text selection
-           *   - Focus another, hidden textarea so we paste there
-           *   - Copy the pasted content of said textarea
-           *   - Give focus back to the scribe
-           *   - Restore the text selection
-           *
-           * This is required because, without access to the Clipboard API, there is literally
-           * no other way to manipulate content on paste.
-           * As per: https://github.com/jejacks0n/mercury/issues/23#issuecomment-2308347
-           *
-           * Firefox <= 21
-           * https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent.clipboardData
-           */
+
 
           var selection = new scribe.api.Selection();
 
@@ -241,17 +223,13 @@ define([
 
             // Restore the caret position
             selection.selectMarkers();
-            /**
-             * Firefox 19 (and maybe others): even though the applied range
-             * exists within the Scribe instance, we need to focus it.
-             */
             scribe.el.focus();
 
             scribe.insertHTML(data);
           }, 1);
         }
       });
-
+      */
     };
   };
 });
