@@ -18,6 +18,8 @@ define(function () {
         if (selection.range.collapsed) {
           var aElement = document.createElement('a');
           aElement.setAttribute('href', value);
+          aElement.setAttribute('target', '_blank');
+          aElement.setAttribute('rel', 'noopener noreferrer');
           aElement.textContent = value;
 
           selection.range.insertNode(aElement);
