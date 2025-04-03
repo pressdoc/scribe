@@ -86,7 +86,7 @@ define([
        * keyboard navigation inside a heading to ensure a P element is created.
        */
       if (scribe.allowsBlockElements()) {
-        scribe.el.addEventListener('keydown', function (event) {
+        scribe.el.addEventListener('keypress', function (event) {
           if (event.keyCode === 13) { // enter
 
             var selection = new scribe.api.Selection();
@@ -137,7 +137,7 @@ define([
        * keyboard navigation inside list item nodes.
        */
       if (scribe.allowsBlockElements()) {
-        scribe.el.addEventListener('keydown', function (event) {
+        scribe.el.addEventListener('keypress', function (event) {
           if (event.keyCode === 13 || event.keyCode === 8) { // enter || backspace
 
             var selection = new scribe.api.Selection();
@@ -180,67 +180,67 @@ define([
        * I also don't like how it has the authority to perform `event.preventDefault`.
        */
 
-      scribe.el.addEventListener('paste', function handlePaste(event) {
-        /**
-         * Browsers without the Clipboard API (specifically `ClipboardEvent.clipboardData`)
-         * will execute the second branch here.
-         *
-         * Chrome on android provides `ClipboardEvent.clipboardData` but the types array is not filled
-         */
-        if (event.clipboardData && event.clipboardData.types.length > 0) {
-          event.preventDefault();
+      // scribe.el.addEventListener('paste', function handlePaste(event) {
+      //   /**
+      //    * Browsers without the Clipboard API (specifically `ClipboardEvent.clipboardData`)
+      //    * will execute the second branch here.
+      //    *
+      //    * Chrome on android provides `ClipboardEvent.clipboardData` but the types array is not filled
+      //    */
+      //   if (event.clipboardData && event.clipboardData.types.length > 0) {
+      //     event.preventDefault();
 
-          if (Immutable.List(event.clipboardData.types).includes('text/html')) {
-            scribe.insertHTML(event.clipboardData.getData('text/html'));
-          } else {
-            scribe.insertPlainText(event.clipboardData.getData('text/plain'));
-          }
-        } else {
-          /**
-           * If the browser doesn't have `ClipboardEvent.clipboardData`, we run through a
-           * sequence of events:
-           *
-           *   - Save the text selection
-           *   - Focus another, hidden textarea so we paste there
-           *   - Copy the pasted content of said textarea
-           *   - Give focus back to the scribe
-           *   - Restore the text selection
-           *
-           * This is required because, without access to the Clipboard API, there is literally
-           * no other way to manipulate content on paste.
-           * As per: https://github.com/jejacks0n/mercury/issues/23#issuecomment-2308347
-           *
-           * Firefox <= 21
-           * https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent.clipboardData
-           */
+      //     if (Immutable.List(event.clipboardData.types).includes('text/html')) {
+      //       scribe.insertHTML(event.clipboardData.getData('text/html'));
+      //     } else {
+      //       scribe.insertPlainText(event.clipboardData.getData('text/plain'));
+      //     }
+      //   } else {
+      //     /**
+      //      * If the browser doesn't have `ClipboardEvent.clipboardData`, we run through a
+      //      * sequence of events:
+      //      *
+      //      *   - Save the text selection
+      //      *   - Focus another, hidden textarea so we paste there
+      //      *   - Copy the pasted content of said textarea
+      //      *   - Give focus back to the scribe
+      //      *   - Restore the text selection
+      //      *
+      //      * This is required because, without access to the Clipboard API, there is literally
+      //      * no other way to manipulate content on paste.
+      //      * As per: https://github.com/jejacks0n/mercury/issues/23#issuecomment-2308347
+      //      *
+      //      * Firefox <= 21
+      //      * https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent.clipboardData
+      //      */
 
-          var selection = new scribe.api.Selection();
+      //     var selection = new scribe.api.Selection();
 
-          // Store the caret position
-          selection.placeMarkers();
+      //     // Store the caret position
+      //     selection.placeMarkers();
 
-          var bin = document.createElement('div');
-          document.body.appendChild(bin);
-          bin.setAttribute('contenteditable', true);
-          bin.focus();
+      //     var bin = document.createElement('div');
+      //     document.body.appendChild(bin);
+      //     bin.setAttribute('contenteditable', true);
+      //     bin.focus();
 
-          // Wait for the paste to happen (next loop?)
-          setTimeout(function () {
-            var data = bin.innerHTML;
-            bin.parentNode.removeChild(bin);
+      //     // Wait for the paste to happen (next loop?)
+      //     setTimeout(function () {
+      //       var data = bin.innerHTML;
+      //       bin.parentNode.removeChild(bin);
 
-            // Restore the caret position
-            selection.selectMarkers();
-            /**
-             * Firefox 19 (and maybe others): even though the applied range
-             * exists within the Scribe instance, we need to focus it.
-             */
-            scribe.el.focus();
+      //       // Restore the caret position
+      //       selection.selectMarkers();
+      //       /**
+      //        * Firefox 19 (and maybe others): even though the applied range
+      //        * exists within the Scribe instance, we need to focus it.
+      //        */
+      //       scribe.el.focus();
 
-            scribe.insertHTML(data);
-          }, 1);
-        }
-      });
+      //       scribe.insertHTML(data);
+      //     }, 1);
+      //   }
+      // });
 
     };
   };
